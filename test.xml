@@ -391,7 +391,7 @@
     </sensor>
 
     <equality>
-        <!-- <connect name="connect_l" site1="site_shank_l_Link" site2="site_calf_l_Link" /> -->
+        <connect name="connect_l" site1="site_shank_l_Link" site2="site_calf_l_Link" />
         <connect name="connect_r" site1="site_shank_r_Link" site2="site_calf_r_Link" />
     </equality>
 </mujoco>
