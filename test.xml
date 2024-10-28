@@ -1,0 +1,397 @@
+<!-- 相同 calf 版本 -->
+<mujoco model="legged">
+    <compiler angle="radian" />
+    <option timestep="0.001" gravity="0 0 -10" />
+    <include file="./worlds.xml" />
+    <asset>
+        <mesh name="torso_link" file="foot_l_Link.STL" />
+        <mesh name="motor_r_Link" file="motor_r_Link.STL" />
+        <mesh name="thigh_r_Link" file="thigh_r_Link.STL" />
+        <mesh name="shank_r_Link" file="shank_r_Link.STL" />
+        <mesh name="foot_r_Link" file="foot_r_Link.STL" />
+        <mesh name="crank_r_Link" file="crank_r_Link.STL" />
+        <mesh name="calf_r_Link" file="calf_r_Link.STL" />
+        <mesh name="motor_l_Link" file="motor_l_Link.STL" />
+        <mesh name="thigh_l_Link" file="thigh_l_Link.STL" />
+        <mesh name="shank_l_Link" file="shank_l_Link.STL" />
+        <mesh name="foot_l_Link" file="foot_l_Link.STL" />
+        <mesh name="crank_l_Link" file="crank_l_Link.STL" />
+        <mesh name="calf_l_Link" file="calf_r_Link.STL" />
+    </asset>
+
+    <default>
+        <joint damping="0.03" frictionloss="0.02" range="-45 45" />
+    </default>
+
+
+    <worldbody>
+        <light name="spotlight" mode="targetbodycom" target="torso_Link"
+            diffuse=".8 .8 .8" specular="0.3 0.3 0.3" pos="0 -6 4" cutoff="30" />
+        <camera name="topview" pos="0 0 200" xyaxes="1 0 0 0 1 0" target="torso_Link" />
+        <geom name="ground" type="plane" size="0 0 1" pos="0.0 0 -1.5" quat="1 0 0 0"
+            material="matplane" condim="1" conaffinity='15' />
+        <body name="ctbase">
+            <body name="x_block" pos="-0.4 0 0">
+                <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10" />
+                <geom size="0.01 0.015 0.02" type="box" contype="0" conaffinity="0" group="1"
+                    density="0" />
+                <body name="y_block" pos="-0.2 0 0">
+                    <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10" />
+                    <joint name="x_prismatic_joint" pos="0 0 0" axis="1 0 0" type="slide"
+                        range="-0.01 0.01" actuatorfrcrange="-100 100" damping="10" frictionloss="1" />
+                    <geom size="0.02" contype="0" conaffinity="0" group="1" density="0" />
+                    <body name="z_block" pos="-0.2 0 0">
+                        <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10" />
+                        <joint name="y_prismatic_joint" pos="0 0 0" axis="0 1 0" type="slide"
+                            range="-0.01 0.01" actuatorfrcrange="-100 100" damping="10"
+                            frictionloss="1" />
+                        <geom size="0.02 0.01" type="cylinder" contype="0" conaffinity="0" group="1"
+                            density="0" />
+                        <body name="roll_block">
+                            <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10" />
+                            <joint name="z_prismatic_joint" pos="0 0 0" axis="0 0 1" type="slide"
+                                range="-0.01 0.01" actuatorfrcrange="-1000 1000" damping="10"
+                                frictionloss="1" />
+                            <body name="pitch_block" pos="-0.1 0 0">
+                                <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10" />
+                                <joint name="roll_joint" pos="0 0 0" axis="1 0 0" range="-0.1 0.1"
+                                    actuatorfrcrange="-10 10" />
+                                <body name="yaw_block">
+                                    <inertial pos="0 0 0" mass="1e-07"
+                                        diaginertia="1e-10 1e-10 1e-10" />
+                                    <joint name="pitch_joint" pos="0 0 0" axis="0 1 0"
+                                        range="-0.01 0.01" actuatorfrcrange="-10 10" />
+                                    <body name="f_t_sensor_link">
+                                        <inertial pos="0 0 0" mass="1e-07"
+                                            diaginertia="1e-10 1e-10 1e-10" />
+                                        <joint name="yaw_f_t_sensor_joint" pos="0 0 0"
+                                            axis="0
+                                        0 1"
+                                            range="-0.05  0.05 " actuatorfrcrange="-10 10" />
+                                        <site name='ft_sensor' size='0.001' pos='0.0 0 0.0' />
+                                        <geom size="0.02" contype="0" conaffinity="0" group="1"
+                                            density="0" />
+                                        <body name="torso_Link">
+                                            <inertial pos="-0.391934 -0.00660919 -0.0525461"
+                                                quat="0.473521 0.502197 0.559421 0.458938"
+                                                mass="13.48"
+                                                diaginertia="0.405127 0.346057 0.142614" />
+                                            <geom type="mesh" contype="0" conaffinity="0" group="1"
+                                                density="0" rgba="0.79216 0.81961 0.93333 1"
+                                                mesh="torso_link" />
+                                            <body name="imu_link" pos="-0.4485 -0.00367 -0.10225">
+                                                <inertial pos="0 0 0" mass="0" diaginertia="0 0 0" />
+                                                <geom size="0.01 0.01 0.01" type="box" contype="0"
+                                                    conaffinity="0" group="1" density="0" />
+                                                <site name='imu' size='0.01' pos='0.0 0 0.0' />
+                                            </body>
+
+
+                                            <body name="hip_knee_motor_l_Link"
+                                                pos="-0.4036 0.13 -0.0725"
+                                                quat="0.707105 0 -0.707108 0">
+                                                <inertial pos="0.001764 0.0362829 0.103246"
+                                                    quat="0.768057 0.636319 0.0529697 -0.0488022"
+                                                    mass="4.31137"
+                                                    diaginertia="0.0174643 0.0169442 0.015646" />
+                                                <joint name="abad_hip_knee_motor_l_joint"
+                                                    pos="0 0 0" axis="0 0 1"
+                                                    range="-0.5 0.8" />
+                                                <geom type="mesh" contype="0" conaffinity="0"
+                                                    group="1" density="0"
+                                                    rgba="0.776471 0.756863 0.737255 1"
+                                                    mesh="motor_l_Link" />
+                                                <body name="thigh_l_Link" pos="0 0.0294 0.106"
+                                                    quat="0.147785 -0.147789 -0.691491 -0.69149">
+                                                    <inertial pos="0.311049 -8.3131e-09 0.00399628"
+                                                        quat="-0.267431 0.654594 -0.26744 0.654571"
+                                                        mass="0.444095"
+                                                        diaginertia="0.01466 0.01466 9.84122e-05" />
+                                                    <joint name="hip_thigh_l_joint" pos="0 0 0"
+                                                        axis="0 0 1" limited="true"
+                                                        range="-1 0.8" />
+                                                    <geom type="mesh" contype="0" conaffinity="0"
+                                                        group="1" density="0" rgba="1 1 1 1"
+                                                        mesh="thigh_l_Link" />
+                                                    <body name="shank_l_Link" pos="0.552 0 0.0041"
+                                                        quat="0.913054 0 0 -0.407838">
+                                                        <inertial pos="0.17154 0.0038189 4.2027e-10"
+                                                            quat="0.00458353 0.707092 -0.00458353 0.707092"
+                                                            mass="0.28073"
+                                                            diaginertia="0.0028899 0.00285217 8.03122e-05" />
+                                                        <joint name="shank_l_joint" pos="0 0 0"
+                                                            axis="0 0 1" limited="true"
+                                                            range="-0.4 0.4" />
+                                                        <geom type="mesh" contype="0"
+                                                            conaffinity="0" group="1" density="0"
+                                                            rgba="1 1 1 1" mesh="shank_l_Link" />
+                                                        <site name='site_shank_l_Link'
+                                                            size='0.01'
+                                                            pos='-0.01863 0.06955 0.0' />
+                                                        <body name="foot_l_Link" pos="0.454 0 0">
+                                                            <inertial pos="-0.00104095 0 0"
+                                                                quat="0.5 0.5 0.5 0.5"
+                                                                mass="0.107219"
+                                                                diaginertia="4.84669e-05 4.84669e-05 4.40994e-05" />
+                                                            <geom type="mesh" contype="0"
+                                                                conaffinity="0" group="1"
+                                                                density="0"
+                                                                rgba="0.298039 0.298039 0.298039 1"
+                                                                mesh="foot_l_Link" />
+                                                            <geom type="mesh"
+                                                                rgba="0.298039 0.298039 0.298039 1"
+                                                                mesh="foot_l_Link" />
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                                <body name="crank_l_Link" pos="0 0.047147 0.106"
+                                                    quat="0.529526 -0.529528 -0.468616 -0.468617">
+                                                    <inertial
+                                                        pos="0.0380508 -0.00330236 -0.00328045"
+                                                        quat="0.0386219 0.707063 -0.0374888 0.705099"
+                                                        mass="0.0822004"
+                                                        diaginertia="5.40084e-05 5.03536e-05 4.00915e-06" />
+                                                    <joint name="crank_l_joint" pos="0 0 0"
+                                                        axis="0 0 1" limited="true"
+                                                        range="-0.4 0.4" />
+                                                    <geom type="mesh" contype="0" conaffinity="0"
+                                                        group="1" density="0"
+                                                        rgba="0.776471 0.756863 0.737255 1"
+                                                        mesh="crank_l_Link" />
+                                                    <body name="calf_l_Link"
+                                                        pos="0.071173 -0.010881 -0.0227"
+                                                        quat="0.802215 0 0 -0.597035">
+                                                        <inertial pos="0.28 -2.87515e-08 -0.003"
+                                                            quat="4.78862e-05 0.707107 4.78862e-05 0.707107"
+                                                            mass="0.122472"
+                                                            diaginertia="0.00143366 0.00143344 6.20664e-06" />
+                                                        <joint name="calf_l_joint" pos="0 0 0"
+                                                            axis="0 0 1" limited="false"
+                                                            range="-0.8 0.8" />
+                                                        <geom type="mesh" contype="0"
+                                                            conaffinity="0" group="1" density="0"
+                                                            rgba="1 1 1 0.5" mesh="calf_l_Link" />
+                                                        <site name='site_calf_l_Link'
+                                                            size='0.01' pos='0.56 0 0.00885' />
+                                                    </body>
+                                                </body>
+                                            </body>
+
+
+                                            <body name="hip_knee_motor_r_Link"
+                                                pos="-0.4036 -0.13 -0.0725"
+                                                quat="0.707105 0 -0.707108 0">
+                                                <inertial pos="0.001764 -0.03628 0.103246"
+                                                    mass="4.31" diaginertia="0.02 0.02 0.02" />
+                                                <joint name="abad_hip_knee_motor_r_joint"
+                                                    pos="0 0 0" axis="0 0 1"
+                                                    range="-0.8 0.5" />
+                                                <geom type="mesh" contype="0" conaffinity="0"
+                                                    group="1" density="0"
+                                                    rgba="0.792157 0.819608 0.933333 1"
+                                                    mesh="motor_r_Link" />
+                                                <body name="thigh_r_Link" pos="0 -0.0293 0.106"
+                                                    quat="0.147785 -0.147789 -0.691491 -0.69149">
+                                                    <inertial pos="0.31105 -8.3131e-09 -0.00400372"
+                                                        quat="-0.267431 0.654594 -0.26744 0.654571"
+                                                        mass="0.444095"
+                                                        diaginertia="0.01466 0.01466 9.84122e-05" />
+                                                    <joint name="hip_thigh_r_joint" pos="0 0 0"
+                                                        axis="0 0 1" limited="true"
+                                                        range="-1 0.8" />
+                                                    <geom type="mesh" contype="0" conaffinity="0"
+                                                        group="1" density="0" rgba="1 1 1 1"
+                                                        mesh="thigh_r_Link" />
+                                                    <body name="shank_r_Link" pos="0.552 0 -0.0041"
+                                                        quat="0.913054 0 0 -0.407838">
+                                                        <inertial pos="0.17154 0.0038189 4.2027e-10"
+                                                            quat="0.00458353 0.707092 -0.00458353 0.707092"
+                                                            mass="0.28073"
+                                                            diaginertia="0.0028899 0.00285217 8.03122e-05" />
+                                                        <joint name="shank_r_joint" pos="0 0 0"
+                                                            axis="0 0 1" limited="true"
+                                                            range="-0.4 0.4" />
+                                                        <geom type="mesh" contype="0"
+                                                            conaffinity="0" group="1" density="0"
+                                                            rgba="1 1 1 1" mesh="shank_r_Link" />
+                                                        <site name='site_shank_r_Link'
+                                                            size='0.01'
+                                                            pos='-0.01863 0.06955 0.0' />
+                                                        <!-- <geom type="mesh" rgba="1 1 1 1"
+                                                            mesh="shank_r_Link" /> -->
+                                                        <body name="foot_r_Link" pos="0.454 0 0">
+                                                            <inertial pos="-0.00104095 0 0"
+                                                                quat="0.5 0.5 0.5 0.5"
+                                                                mass="0.107219"
+                                                                diaginertia="4.84669e-05 4.84669e-05 4.40994e-05" />
+                                                            <geom type="mesh" contype="0"
+                                                                conaffinity="0" group="1"
+                                                                density="0"
+                                                                rgba="0.298039 0.298039 0.298039 1"
+                                                                mesh="foot_r_Link" />
+                                                            <geom type="mesh"
+                                                                rgba="0.298039 0.298039 0.298039 1"
+                                                                mesh="foot_r_Link" />
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                                <body name="crank_r_Link" pos="0 -0.047247 0.106"
+                                                    quat="0.529526 -0.529528 -0.468616 -0.468617">
+                                                    <inertial pos="0.0380508 -0.00330236 0.00338237"
+                                                        quat="0.0386219 0.707063 -0.0374888 0.705099"
+                                                        mass="0.0822004"
+                                                        diaginertia="5.40084e-05 5.03536e-05 4.00915e-06" />
+                                                    <!-- 这里是并联的开始，5kg对应的文件并没有这部分的配置 -->
+                                                    <joint name="crank_r_joint" pos="0 0 0"
+                                                        axis="0 0 1" limited="true"
+                                                        range="-0.4 0.4" />
+                                                    <geom type="mesh" contype="0" conaffinity="0"
+                                                        group="1" density="0"
+                                                        rgba="0.776471 0.756863 0.737255 1"
+                                                        mesh="crank_r_Link" />
+                                                    <body name="calf_r_Link"
+                                                        pos="0.071173 -0.010881 0.0049975"
+                                                        quat="0.802215 0 0 -0.597035">
+                                                        <inertial pos="0.28 -2.875e-08 0.00885"
+                                                            quat="3.50595e-05 0.707107 3.50595e-05 0.707107"
+                                                            mass="0.12247"
+                                                            diaginertia="0.0014337 0.0014334 6.2066e-06" />
+                                                        <joint name="crank_calf_r_joint" pos="0 0 0"
+                                                            axis="0 0 1" limited="false"
+                                                            range="-0.8 0.8" />
+                                                        <geom type="mesh" contype="0"
+                                                            conaffinity="0" group="1" density="0"
+                                                            rgba="1 1 1 0.3" mesh="calf_r_Link" />
+                                                        <site name='site_calf_r_Link'
+                                                            size='0.01' pos='0.56 0 0.00885' />
+                                                    </body>
+                                                </body>
+                                            </body>
+
+
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <actuator>
+        <motor name="x_prismatic_joint_motor" joint="x_prismatic_joint" gear="1" ctrllimited="true"
+            ctrlrange="-100 100" />
+        <motor name="y_prismatic_joint_motor" joint="y_prismatic_joint" gear="1" ctrllimited="true"
+            ctrlrange="-100 100" />
+        <motor name="z_prismatic_joint_motor" joint="z_prismatic_joint" gear="1" ctrllimited="true"
+            ctrlrange="-1000 1000" />
+        <motor name="roll_joint_motor" joint="roll_joint" gear="1" ctrllimited="true"
+            ctrlrange="-10 10" />
+        <motor name="pitch_joint_motor" joint="pitch_joint" gear="1" ctrllimited="true"
+            ctrlrange="-10 10" />
+        <motor name="yaw_joint_motor" joint="yaw_f_t_sensor_joint" gear="1" ctrllimited="true"
+            ctrlrange="-10 10" />
+
+
+        <motor name="abad_hip_knee_motor_l_joint_motor" joint="abad_hip_knee_motor_l_joint" gear="1"
+            ctrllimited="true" ctrlrange="-120 120" />
+        <motor name="hip_thigh_l_joint_motor" joint="hip_thigh_l_joint" gear="1" ctrllimited="true"
+            ctrlrange="-120 120" />
+        <motor name="crank_l_joint_motor" joint="crank_l_joint" gear="1"
+            ctrllimited="true" ctrlrange="-120 120" />
+        <motor name="abad_hip_knee_motor_r_joint_motor" joint="abad_hip_knee_motor_r_joint" gear="1"
+            ctrllimited="true" ctrlrange="-120 120" />
+        <motor name="hip_thigh_r_joint_motor" joint="hip_thigh_r_joint" gear="1" ctrllimited="true"
+            ctrlrange="-120 120" />
+        <motor name="crank_r_joint_motor" joint="crank_r_joint" gear="1"
+            ctrllimited="true" ctrlrange="-120 120" />
+    </actuator>
+
+
+    <sensor>
+        <actuatorpos name='x_prismatic_joint_motor_p' actuator='x_prismatic_joint_motor' user='13' />
+        <actuatorpos name='y_prismatic_joint_motor_p' actuator='y_prismatic_joint_motor' user='13' />
+        <actuatorpos name='z_prismatic_joint_motor_p' actuator='z_prismatic_joint_motor' user='13' />
+        <actuatorpos name='roll_joint_motor_p' actuator='roll_joint_motor' user='13' />
+        <actuatorpos name='pitch_joint_motor_p' actuator='pitch_joint_motor' user='13' />
+        <actuatorpos name='yaw_joint_motor_p' actuator='yaw_joint_motor' user='13' />
+
+        <actuatorpos name='abad_hip_knee_motor_l_joint_motor_p'
+            actuator='abad_hip_knee_motor_l_joint_motor' user='13' />
+        <actuatorpos name='hip_thigh_l_joint_motor_p' actuator='hip_thigh_l_joint_motor' user='13' />
+        <actuatorpos name='crank_l_joint_motor_p' actuator='crank_l_joint_motor'
+            user='13' />
+        <actuatorpos name='abad_hip_knee_motor_r_joint_motor_p'
+            actuator='abad_hip_knee_motor_r_joint_motor' user='13' />
+        <actuatorpos name='hip_thigh_r_joint_motor_p' actuator='hip_thigh_r_joint_motor' user='13' />
+        <actuatorpos name='crank_r_joint_motor_p' actuator='crank_r_joint_motor'
+            user='13' />
+
+        <!-- 用于测试串并联之间的关系  -->
+        <jointpos name='shank_r_joint_p' joint='shank_r_joint' user='13' />
+        <jointpos name='hip_thigh_r_joint_p' joint='hip_thigh_r_joint' user='13' />
+        <jointpos name='crank_r_joint_p' joint='crank_r_joint'
+            user='13' />
+        <jointpos name='shank_l_joint_p' joint='shank_l_joint' user='13' />
+
+        <!-- 用于测试串并联之间的关系  -->
+
+
+        <actuatorvel name='x_prismatic_joint_motor_v' actuator='x_prismatic_joint_motor' user='13' />
+        <actuatorvel name='y_prismatic_joint_motor_v' actuator='y_prismatic_joint_motor' user='13' />
+        <actuatorvel name='z_prismatic_joint_motor_v' actuator='z_prismatic_joint_motor' user='13' />
+        <actuatorvel name='roll_joint_motor_v' actuator='roll_joint_motor' user='13' />
+        <actuatorvel name='pitch_joint_motor_v' actuator='pitch_joint_motor' user='13' />
+        <actuatorvel name='yaw_joint_motor_v' actuator='yaw_joint_motor' user='13' />
+
+
+        <actuatorvel name='abad_hip_knee_motor_l_joint_motor_v'
+            actuator='abad_hip_knee_motor_l_joint_motor' user='13' />
+        <actuatorvel name='hip_thigh_l_joint_motor_v' actuator='hip_thigh_l_joint_motor' user='13' />
+        <actuatorvel name='crank_l_joint_motor_v' actuator='crank_l_joint_motor'
+            user='13' />
+        <actuatorvel name='abad_hip_knee_motor_r_joint_motor_v'
+            actuator='abad_hip_knee_motor_r_joint_motor' user='13' />
+        <actuatorvel name='hip_thigh_r_joint_motor_v' actuator='hip_thigh_r_joint_motor' user='13' />
+        <actuatorvel name='crank_r_joint_motor_v' actuator='crank_r_joint_motor'
+            user='13' />
+
+
+        <actuatorfrc name='abad_hip_knee_motor_l_joint_motor_f'
+            actuator='abad_hip_knee_motor_l_joint_motor' user='13' noise='1e-3' />
+        <actuatorfrc name='abad_hip_knee_motor_r_joint_motor_f'
+            actuator='abad_hip_knee_motor_r_joint_motor' user='13' />
+        <actuatorfrc name='hip_thigh_l_joint_motor_f' actuator='hip_thigh_l_joint_motor' user='13' />
+        <actuatorfrc name='hip_thigh_r_joint_motor_f' actuator='hip_thigh_r_joint_motor' user='13' />
+        <actuatorfrc name='crank_l_joint_motor_f' actuator='crank_l_joint_motor'
+            user='13' />
+        <actuatorfrc name='crank_r_joint_motor_f' actuator='crank_r_joint_motor'
+            user='13' />
+
+        <actuatorfrc name='x_prismatic_joint_motor_f' actuator='x_prismatic_joint_motor' user='13' />
+        <actuatorfrc name='y_prismatic_joint_motor_f' actuator='y_prismatic_joint_motor' user='13' />
+        <actuatorfrc name='z_prismatic_joint_motor_f' actuator='z_prismatic_joint_motor' user='13' />
+        <actuatorfrc name='roll_joint_motor_f' actuator='roll_joint_motor' user='13' />
+        <actuatorfrc name='pitch_joint_motor_f' actuator='pitch_joint_motor' user='13' />
+        <actuatorfrc name='yaw_joint_motor_f' actuator='yaw_joint_motor' user='13' />
+
+
+        <framequat name='orientation' objtype='site' noise='0.001' objname='imu' />
+        <framepos name='position' objtype='site' noise='0.001' objname='imu' />
+        <gyro name='angular-velocity' site='imu' noise='0.005' cutoff='34.9' />
+        <velocimeter name='linear-velocity' site='imu' noise='0.001' cutoff='30' />
+        <accelerometer name='linear-acceleration' site='imu' noise='0.005' cutoff='157' />
+        <magnetometer name='magnetometer' site='imu' />
+
+        <force name="inter_force_sensor" site='ft_sensor' />
+        <torque name="inter_torque_sensor" site='ft_sensor' />
+
+    </sensor>
+
+    <equality>
+        <!-- <connect name="connect_l" site1="site_shank_l_Link" site2="site_calf_l_Link" /> -->
+        <connect name="connect_r" site1="site_shank_r_Link" site2="site_calf_r_Link" />
+    </equality>
+</mujoco>

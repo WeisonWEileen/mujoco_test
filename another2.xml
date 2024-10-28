@@ -1,0 +1,133 @@
+<mujoco model="Centaur_urdf4mujoco">
+  <compiler angle="radian"/>
+
+  <asset>
+    <mesh name="torso_link" file="torso_link.STL"/>
+    <mesh name="motor_r_Link" file="motor_r_Link.STL"/>
+    <mesh name="thigh_r_Link" file="thigh_r_Link.STL"/>
+    <mesh name="shank_r_Link" file="shank_r_Link.STL"/>
+    <mesh name="foot_r_Link" file="foot_r_Link.STL"/>
+    <mesh name="crank_r_Link" file="crank_r_Link.STL"/>
+    <mesh name="calf_r_Link" file="calf_r_Link.STL"/>
+    <mesh name="motor_l_Link" file="motor_l_Link.STL"/>
+    <mesh name="thigh_l_Link" file="thigh_l_Link.STL"/>
+    <mesh name="shank_l_Link" file="shank_l_Link.STL"/>
+    <mesh name="foot_l_Link" file="foot_l_Link.STL"/>
+    <mesh name="crank_l_Link" file="crank_l_Link.STL"/>
+    <mesh name="calf_l_Link" file="calf_l_Link.STL"/>
+  </asset>
+
+  <worldbody>
+    <body name="ctbase">
+      <body name="x_block" pos="-0.4 0 0">
+        <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10"/>
+        <geom size="0.01 0.015 0.02" type="box" contype="0" conaffinity="0" group="1" density="0"/>
+        <body name="y_block" pos="-0.2 0 0">
+          <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10"/>
+          <joint name="x_prismatic_joint" pos="0 0 0" axis="1 0 0" type="slide" range="-100 100" actuatorfrcrange="-100 100" damping="10" frictionloss="1"/>
+          <geom size="0.02" contype="0" conaffinity="0" group="1" density="0"/>
+          <body name="z_block" pos="-0.2 0 0">
+            <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10"/>
+            <joint name="y_prismatic_joint" pos="0 0 0" axis="0 1 0" type="slide" range="-100 100" actuatorfrcrange="-100 100" damping="10" frictionloss="1"/>
+            <geom size="0.02 0.01" type="cylinder" contype="0" conaffinity="0" group="1" density="0"/>
+            <body name="roll_block">
+              <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10"/>
+              <joint name="z_prismatic_joint" pos="0 0 0" axis="0 0 1" type="slide" range="-1.5 1" actuatorfrcrange="-1000 1000" damping="10" frictionloss="1"/>
+              <body name="pitch_block" pos="-0.1 0 0">
+                <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10"/>
+                <joint name="roll_joint" pos="0 0 0" axis="1 0 0" range="-3.14 3.14" actuatorfrcrange="-10 10"/>
+                <body name="yaw_block">
+                  <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10"/>
+                  <joint name="pitch_joint" pos="0 0 0" axis="0 1 0" range="-3.14 3.14" actuatorfrcrange="-10 10"/>
+                  <body name="f_t_sensor_link">
+                    <inertial pos="0 0 0" mass="1e-07" diaginertia="1e-10 1e-10 1e-10"/>
+                    <joint name="yaw_f_t_sensor_joint" pos="0 0 0" axis="0 0 1" range="-3.14 3.14" actuatorfrcrange="-10 10"/>
+                    <geom size="0.02" contype="0" conaffinity="0" group="1" density="0"/>
+                    <body name="torso_Link">
+                      <inertial pos="-0.391934 -0.00660919 -0.0525461" quat="-0.0414558 0.742362 -0.00614376 0.668687" mass="13.48" diaginertia="0.405127 0.346057 0.142614"/>
+                      <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.79216 0.81961 0.93333 1" mesh="torso_link"/>
+                      <geom type="mesh" rgba="0.79216 0.81961 0.93333 1" mesh="torso_link"/>
+                      <body name="imu_link" pos="-0.4485 -0.00367 -0.10225">
+                        <geom size="0.01 0.01 0.01" type="box" contype="0" conaffinity="0" group="1" density="0"/>
+                      </body>
+                      <body name="motor_r_Link" pos="-0.4036 -0.13 -0.0725" quat="0.707105 0 -0.707108 0">
+                        <inertial pos="0.001764 -0.0362829 0.103246" quat="0.471222 0.528669 0.529588 0.466899" mass="4.31137" diaginertia="0.0148163 0.0081936 0.0080619"/>
+                        <joint name="motor_r_joint" pos="0 0 0" axis="0 0 1" range="0 1" actuatorfrcrange="-1 1"/>
+                        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.792157 0.819608 0.933333 1" mesh="motor_r_Link"/>
+                        <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="motor_r_Link"/>
+                        <body name="thigh_r_Link" pos="0 -0.0293 0.106" quat="0.147785 -0.147789 -0.691491 -0.69149">
+                          <inertial pos="0.31105 -3.5031e-09 -0.0040037" quat="0.499984 0.500016 0.499956 0.500044" mass="0.44409" diaginertia="0.0027494 0.0027477 9.8412e-05"/>
+                          <joint name="thigh_r_joint" pos="0 0 0" axis="0 0 -1" limited="false" range="1.57 -1.57"/>
+                          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="thigh_r_Link"/>
+                          <geom type="mesh" rgba="1 1 1 1" mesh="thigh_r_Link"/>
+                          <body name="shank_r_Link" pos="0.552 0 -0.0041" quat="0.913054 0 0 -0.407838">
+                            <inertial pos="0.17154 0.0038189 4.2027e-10" quat="0.00458353 0.707092 -0.00458353 0.707092" mass="0.28073" diaginertia="0.0028899 0.00285217 8.03122e-05"/>
+                            <joint name="shank_r_joint" pos="0 0 0" axis="0 0 -1" limited="false" range="1.57 -1.57"/>
+                            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="shank_r_Link"/>
+                            <geom type="mesh" rgba="1 1 1 1" mesh="shank_r_Link"/>
+                            <body name="foot_r_Link" pos="0.454 0 0">
+                              <inertial pos="-0.00104095 0 0" quat="0.5 0.5 0.5 0.5" mass="0.107219" diaginertia="4.84669e-05 4.84669e-05 4.40994e-05"/>
+                              <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.298039 0.298039 0.298039 1" mesh="foot_r_Link"/>
+                              <geom type="mesh" rgba="0.298039 0.298039 0.298039 1" mesh="foot_r_Link"/>
+                            </body>
+                          </body>
+                        </body>
+                        <body name="crank_r_Link" pos="0 -0.047247 0.106" quat="0.529526 -0.529528 -0.468616 -0.468617">
+                          <inertial pos="0.0380508 -0.00330236 0.00338237" quat="0.0386219 0.707063 -0.0374888 0.705099" mass="0.0822004" diaginertia="5.40084e-05 5.03536e-05 4.00915e-06"/>
+                          <joint name="crank_r_joint" pos="0 0 0" axis="0 0 1" limited="false" range="1.57 -1.57"/>
+                          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.776471 0.756863 0.737255 1" mesh="crank_r_Link"/>
+                          <geom type="mesh" rgba="0.776471 0.756863 0.737255 1" mesh="crank_r_Link"/>
+                          <body name="calf_r_Link" pos="0.071173 -0.010881 0.0049975" quat="0.802215 0 0 -0.597035">
+                            <inertial pos="0.28 -2.875e-08 0.00885" quat="3.50595e-05 0.707107 3.50595e-05 0.707107" mass="0.12247" diaginertia="0.0014337 0.0014334 6.2066e-06"/>
+                            <joint name="crank_calf_r_joint" pos="0 0 0" axis="0 0 1" limited="false" range="1.57 -1.57"/>
+                            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="calf_r_Link"/>
+                            <geom type="mesh" rgba="1 1 1 1" mesh="calf_r_Link"/>
+                          </body>
+                        </body>
+                      </body>
+                      <body name="motor_l_Link" pos="-0.4036 0.13 -0.0725" quat="0.707105 0 -0.707108 0">
+                        <inertial pos="0.001764 0.0362829 0.103246" quat="0.466899 0.529589 0.528669 0.471222" mass="17.156" diaginertia="0.0589578 0.0326044 0.0320803"/>
+                        <joint name="motor_l_joint" pos="0 0 0" axis="0 0 1" range="0 10" actuatorfrcrange="-1 1"/>
+                        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.776471 0.756863 0.737255 1" mesh="motor_l_Link"/>
+                        <geom type="mesh" rgba="0.776471 0.756863 0.737255 1" mesh="motor_l_Link"/>
+                        <body name="thigh_l_Link" pos="0 0.0294 0.106" quat="0.147785 -0.147789 -0.691491 -0.69149">
+                          <inertial pos="0.311049 -3.50311e-09 0.00399627" quat="0.49997 0.50003 0.499942 0.500058" mass="0.444094" diaginertia="0.00274942 0.00274769 9.84117e-05"/>
+                          <joint name="thigh_l_joint" pos="0 0 0" axis="0 0 1" limited="false" range="1.57 -1.57"/>
+                          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="thigh_l_Link"/>
+                          <geom type="mesh" rgba="1 1 1 1" mesh="thigh_l_Link"/>
+                          <body name="shank_l_Link" pos="0.552 0 0.0039" quat="0.913054 0 0 -0.407838">
+                            <inertial pos="0.17154 0.0038189 4.2027e-10" quat="0.00458353 0.707092 -0.00458353 0.707092" mass="0.28073" diaginertia="0.0028899 0.00285217 8.03122e-05"/>
+                            <joint name="shank_l_joint" pos="0 0 0" axis="0 0 1" limited="false" range="1.57 -1.57"/>
+                            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="shank_l_Link"/>
+                            <geom type="mesh" rgba="1 1 1 1" mesh="shank_l_Link"/>
+                            <body name="foot_l_Link" pos="0.454 0 0">
+                              <inertial pos="-0.00104095 0 0" quat="0.5 0.5 0.5 0.5" mass="0.107219" diaginertia="4.84669e-05 4.84669e-05 4.40994e-05"/>
+                              <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.298039 0.298039 0.298039 1" mesh="foot_l_Link"/>
+                              <geom type="mesh" rgba="0.298039 0.298039 0.298039 1" mesh="foot_l_Link"/>
+                            </body>
+                          </body>
+                        </body>
+                        <body name="crank_l_Link" pos="0 0.047147 0.106" quat="0.529526 -0.529528 -0.468616 -0.468617">
+                          <inertial pos="0.0380508 -0.00330236 -0.00328045" quat="0.0386219 0.707063 -0.0374888 0.705099" mass="0.0822004" diaginertia="5.40084e-05 5.03536e-05 4.00915e-06"/>
+                          <joint name="crank_l_joint" pos="0 0 0" axis="0 0 -1" limited="false" range="1.57 -1.57"/>
+                          <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.776471 0.756863 0.737255 1" mesh="crank_l_Link"/>
+                          <geom type="mesh" rgba="0.776471 0.756863 0.737255 1" mesh="crank_l_Link"/>
+                          <body name="calf_l_Link" pos="0.071173 -0.010881 -0.010847" quat="0.802215 0 0 -0.597035">
+                            <inertial pos="0.28 -2.87515e-08 -0.003" quat="4.78862e-05 0.707107 4.78862e-05 0.707107" mass="0.122472" diaginertia="0.00143366 0.00143344 6.20664e-06"/>
+                            <joint name="calf_l_joint" pos="0 0 0" axis="0 0 1" limited="false" range="1.57 -1.57"/>
+                            <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="calf_l_Link"/>
+                            <geom type="mesh" rgba="1 1 1 1" mesh="calf_l_Link"/>
+                          </body>
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>
